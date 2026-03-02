@@ -20,3 +20,32 @@ export const crearUsuario = async (datos) => {
     throw error;
   }
 };
+
+// 
+export const obtenerUsuario = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/api/usuarios/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const actualizarUsuario = async (datos) => {
+  try {
+    const payload = {
+      ...datos,
+      pagado: datos.pagado === "1" || datos.pagado === true || datos.pagado === 1,
+    };
+
+    const response = await axiosInstance.post(
+      '/api/editar',
+      payload
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar:", error);
+    throw error;
+  }
+};
