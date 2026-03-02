@@ -1,8 +1,8 @@
 import { Layout, Row, Col } from 'antd';
-import { getParticipantesFin2025 } from '../api/participantesApi';
+import { getParticipantesFin2025, eliminarParticipante, enviarEmail  } from '../api/participantesApi';
 import React, { useState, useEffect } from 'react';
 import { Table, Spin, Alert, Space, Button, message, Popconfirm, Input  } from 'antd';
-import { EditOutlined, DeleteOutlined, SearchOutlined  } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, SearchOutlined, MailOutlined  } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
@@ -19,29 +19,54 @@ function Carreras() {
     navigate(`/usuarios/editar/${record.id}`);
   };
 
-  const handleDelete = (record) => {
-    console.log("Eliminar:", record.id);
-    message.success("Registro eliminado");
+  const handleDelete = async (record) => {
+    try {
+      await eliminarParticipante(record.id);
+
+      message.success("Registro eliminado correctamente");
+
+      obtenerUsuarios(); // 👈 vuelve a cargar la tabla
+    } catch (error) {
+      message.error("Error al eliminar el registro");
+      console.error(error);
+    }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getParticipantesFin2025();
-        if (data.success) {
-          setParticipantes(data.data);
-          //setTotal(data.total);
-        } else {
-          setError(data.message || 'Error desconocido');
-        }
-      } catch (err) {
-        setError(err.message || 'Fallo al conectar con el servidor');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const sendEmail = async (record) => {
+    try {
+      await enviarEmail(record);
 
-    fetchData();
+      message.success("Email correctamente");
+
+      //obtenerUsuarios(); // 👈 vuelve a cargar la tabla
+    } catch (error) {
+      message.error("Error al enviar email");
+      console.error(error);
+    }
+  };
+  const obtenerUsuarios = async () => {
+  try {
+    setLoading(true);
+
+    const data = await getParticipantesFin2025();
+
+    if (data.success) {
+      setParticipantes(data.data);
+      // setTotal(data.total);
+    } else {
+      setError(data.message || "Error desconocido");
+    }
+
+  } catch (err) {
+    setError(err.message || "Fallo al conectar con el servidor");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  useEffect(() => {
+    obtenerUsuarios();
+    
   }, []);
 
   if (loading) return <Spin tip="Cargando participantes..." size="large" />;
@@ -68,6 +93,13 @@ function Carreras() {
           onClick={() => handleEdit(record)}
         >
           Editar
+        </Button>
+        <Button
+          type="success"
+          icon={<MailOutlined />}
+          onClick={() => sendEmail(record)}
+        >
+          Email
         </Button>
         <Popconfirm
           title="¿Seguro que deseas eliminar?"

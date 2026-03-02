@@ -11,7 +11,6 @@ export const getParticipantesFin2025 = async () => {
   }
 };
 
-// Ejemplo POST si necesitas crear usuario después
 export const crearUsuario = async (datos) => {
   try {
     const response = await axiosInstance.post('/usuarios', datos);
@@ -21,7 +20,6 @@ export const crearUsuario = async (datos) => {
   }
 };
 
-// 
 export const obtenerUsuario = async (id) => {
   try {
     const response = await axiosInstance.get(`/api/usuarios/${id}`);
@@ -46,6 +44,24 @@ export const actualizarUsuario = async (datos) => {
     return response.data;
   } catch (error) {
     console.error("Error al actualizar:", error);
+    throw error;
+  }
+};
+
+export const eliminarParticipante = async (id) => {
+  try {
+    const response = await axiosInstance.delete(`/api/eliminar/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const enviarEmail = async (datos) => {
+  try {
+    const response = await axiosInstance.post('/api/email', datos);
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
