@@ -13,39 +13,36 @@ const EditarUsuario = () => {
     nombre: "",
     apellidos: ""
   });
-const [form] = Form.useForm();
+
 const navigate = useNavigate();
 const handleCancel = () => {
   navigate("/carreras");
 };
-  useEffect(() => {
-     const fetchData = async () => {
-          try {
-            const response = await obtenerUsuario(id);
-            console.log(response);
-            if (response) {
-               setUsuario(response);
-               form.setFieldsValue({
-                ...response,
-                nacimiento: response.nacimiento
-                    ? dayjs(response.nacimiento)
-                    : null,
-                pagado: response.pagado ? response.pagado : "0"   
-                });
-              //setTotal(data.total);
-            } else {
-              //setError(response.message || 'Error desconocido');
-            }
-          } catch (err) {
-            console.log(err);
-            //setError(err.message || 'Fallo al conectar con el servidor');
-          } finally {
-            //setLoading(false);
-          }
-        };
     
-        fetchData();
-  }, []);
+  const [form] = Form.useForm();
+  useEffect(() => {
+  if (!id) return; // evita ejecuciones si id no existe aún
+
+  const fetchData = async () => {
+    try {
+      const response = await obtenerUsuario(id);
+      console.log(response);
+
+      if (response) {
+        setUsuario(response);
+        form.setFieldsValue({
+          ...response,
+          nacimiento: response.nacimiento ? dayjs(response.nacimiento) : null,
+          pagado: response.pagado ? response.pagado : "0",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchData();
+}, [id, form]);
 
 
   const onFinish = async (values) => {
