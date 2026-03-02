@@ -1,8 +1,8 @@
 // src/api/axiosInstance.js
 import axios from 'axios';
-
+//baseURL: 'https://www.corebocuautla.com.mx/admin/public/', 
 const axiosInstance = axios.create({
-  baseURL: 'https://www.corebocuautla.com.mx/admin/public/',  // ← cambia por tu URL de Symfony (o usa .env)
+  baseURL: 'http://localhost/public/',  // ← cambia por tu URL de Symfony (o usa .env)
   // Ej: baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   timeout: 15000000,                    // 15 segundos máximo
   headers: {
