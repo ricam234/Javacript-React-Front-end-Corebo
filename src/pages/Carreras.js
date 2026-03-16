@@ -66,7 +66,6 @@ function Carreras() {
 
   useEffect(() => {
     obtenerUsuarios();
-    
   }, []);
 
   if (loading) return <Spin tip="Cargando participantes..." size="large" />;

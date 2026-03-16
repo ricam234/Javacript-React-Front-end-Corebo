@@ -48,6 +48,25 @@ export const actualizarUsuario = async (datos) => {
   }
 };
 
+export const agregarUsuario = async (datos) => {
+  try {
+    const payload = {
+      ...datos,
+      pagado: datos.pagado === "1" || datos.pagado === true || datos.pagado === 1,
+    };
+
+    const response = await axiosInstance.post(
+      '/api/inscribirse',
+      payload
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar:", error);
+    throw error;
+  }
+};
+
 export const eliminarParticipante = async (id) => {
   try {
     const response = await axiosInstance.delete(`/api/eliminar/${id}`);

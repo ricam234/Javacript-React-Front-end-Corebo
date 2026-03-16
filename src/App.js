@@ -2,6 +2,7 @@ import './App.css';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'; 
 import Carreras from './pages/Carreras'; 
+import AgregarParticipantes from './pages/AgregarParticipantes'; 
 import EditarUsuario from "./pages/EditarUsuario";
 import NotFound from './pages/NotFound';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -40,6 +41,16 @@ function App() {
           <ProtectedRoute>
             <AdminLayout>
               <Carreras />
+            </AdminLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agregar"
+        element={
+          <ProtectedRoute>
+            <AdminLayout>
+              <AgregarParticipantes />
             </AdminLayout>
           </ProtectedRoute>
         }

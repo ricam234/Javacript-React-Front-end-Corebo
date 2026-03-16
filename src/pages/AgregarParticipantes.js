@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Form, Input, Button, Card, Select, DatePicker, message   } from "antd";
-import { obtenerUsuario, actualizarUsuario } from '../api/participantesApi';
+import { agregarUsuario } from '../api/participantesApi';
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
-const EditarUsuario = () => {
+const AgregarParticipantes = () => {
   const { id } = useParams(); // obtenemos el id
   const { Option } = Select;
   const [usuario, setUsuario] = useState({
@@ -21,28 +21,8 @@ const handleCancel = () => {
     
   const [form] = Form.useForm();
   useEffect(() => {
-  if (!id) return; // evita ejecuciones si id no existe aún
-
-  const fetchData = async () => {
-    try {
-      const response = await obtenerUsuario(id);
-      console.log(response);
-
-      if (response) {
-        setUsuario(response);
-        form.setFieldsValue({
-          ...response,
-          nacimiento: response.nacimiento ? dayjs(response.nacimiento) : null,
-          pagado: response.pagado ? response.pagado : "0",
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  fetchData();
-}, [id, form]);
+ 
+}, []);
 
 
   const onFinish = async (values) => {
@@ -55,9 +35,9 @@ const handleCancel = () => {
         id:usuario.id 
     };
     console.log("Datos a enviar:", datosEnviar);
-    const resultado = await actualizarUsuario(datosEnviar);
-    if (resultado.id) {
-        message.success("¡Los datos se actualizaron correctamente!");
+    const resultado = await agregarUsuario(datosEnviar);
+    if (resultado.inscrito) {
+        message.success("¡Participante Agregado correctamente!");
 
         navigate("/carreras");
     }
@@ -79,7 +59,7 @@ const handleCancel = () => {
       
 
       <Card title="" style={{ maxWidth: 850, width: "100%" }}>
-        <h2>Editar Participante</h2>
+        <h2>Agregar Participante</h2>
       <Form
         form={form}
         layout="vertical"
@@ -260,4 +240,4 @@ const handleCancel = () => {
   );
 };
 
-export default EditarUsuario;
+export default AgregarParticipantes;
