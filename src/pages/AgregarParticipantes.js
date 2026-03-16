@@ -57,9 +57,7 @@ const [form] = Form.useForm();
         layout="vertical"
         onFinish={onFinish}
         htmlType="submit"
-        initialValues={{
-            nacimiento: usuario.nacimiento ? dayjs(usuario.nacimiento) : null
-        }}
+       
       >
         <Form.Item
           label="Nombre"
