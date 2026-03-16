@@ -6,22 +6,15 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 const AgregarParticipantes = () => {
-  const { id } = useParams(); // obtenemos el id
-  const { Option } = Select;
-  const [usuario, setUsuario] = useState({
-    id:"",
-    nombre: "",
-    apellidos: ""
-  });
-
+  
+const { Option } = Select;
 const navigate = useNavigate();
 const handleCancel = () => {
   navigate("/carreras");
 };
     
-  const [form] = Form.useForm();
+const [form] = Form.useForm();
   useEffect(() => {
- 
 }, []);
 
 
@@ -31,8 +24,7 @@ const handleCancel = () => {
       ...values,
       nacimiento: values.nacimiento
         ? values.nacimiento.format("YYYY-MM-DD")
-        : null,
-        id:usuario.id 
+        : null 
     };
     console.log("Datos a enviar:", datosEnviar);
     const resultado = await agregarUsuario(datosEnviar);
