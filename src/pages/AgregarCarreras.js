@@ -1,5 +1,4 @@
 import { Form, Input, Button, Card  } from "antd";
-import { setCarreras } from '../api/participantesApi';
 import { useNavigate } from "react-router-dom";
 const AgregarCarreras = () => {
     const [form] = Form.useForm();
