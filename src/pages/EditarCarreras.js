@@ -1,6 +1,6 @@
 import { Form, Input, Button, Card, message, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { obtenerCarrera, actualizarCarrera } from '../api/participantesApi';
 import dayjs from "dayjs";
